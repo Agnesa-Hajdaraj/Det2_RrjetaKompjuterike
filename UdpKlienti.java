@@ -4,35 +4,58 @@ import java.util.Scanner;
 import java.util.*;
 import java.nio.charset.StandardCharsets;
 
-public class UdpKlienti {
-    public static void main(String[] args) throws SocketException, UnknownHostException, IOException {
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+import java.net.InetAddress;
 
-        Scanner input = new Scanner(System.in);
-        System.out.println("Shkruj mesazh");
+public class Client {
 
-        // Krijimi i socket
-        DatagramSocket diagramiSocket = new DatagramSocket();
+    public static void main(String[] args) {
+        // Initialise winsock
+        WSADATA wsa = new WSADATA();
+        System.out.print("Initialising Winsock...");
+        if (WSAStartup(MAKEWORD(2, 2), wsa) != 0) {
+            System.out.printf("Failed. Error Code: %d", WSAGetLastError());
+            return;
+        }
+        System.out.print("Initialised.\n");
 
-        // Destimi i IP Serverit
-        InetAddress ipAdresa = InetAddress.getByName("localhost");
+        // Create a socket
+        DatagramSocket clientSocket = null;
+        try {
+            clientSocket = new DatagramSocket();
 
-        // Krijimi i buffered per te derguar te dhena
-        byte [] dergimiDhena = new byte[1024];
+            // Set up server address information
+            InetAddress serverAddress = InetAddress.getByName("127.0.0.1");
+            int serverPort = DefineConstants.PORT;
 
-        // Mesazhi
-        String mesazhi = input.nextLine();
-//        input.next();
+            while (true) {
+                // Get user input for the command
+                System.out.print("Enter command (execute/file w:/file a:/only allowed for the first client. file r: for every client), or just send a message: ");
+                BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+                String command = br.readLine();
 
-        // Konvertimi i mesazhit
-        dergimiDhena = mesazhi.getBytes();
+                // Send the command to the server
+                byte[] sendData = command.getBytes();
+                DatagramPacket sendPacket = new DatagramPacket(sendData, sendData.length, serverAddress, serverPort);
+                clientSocket.send(sendPacket);
 
-        //4. Të behet lidhja me serverin duke përcaktuar sakt portin dhe IP Adresën e serverit;
-        // Pergaditja e paketes dhe dergimi i paketave ne server
-        DatagramPacket paketa = new DatagramPacket(dergimiDhena, dergimiDhena.length, ipAdresa, 5000);
-        diagramiSocket.send(paketa);
-        diagramiSocket.close();
+                // Receive and print the server's response
+                byte[] receiveData = new byte[DefineConstants.BUFLEN];
+                DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
+                clientSocket.receive(receivePacket);
+                String serverResponse = new String(receivePacket.getData(), 0, receivePacket.getLength());
+                System.out.printf("Server says: %s\n", serverResponse);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            closesocket(clientSocket);
+            WSACleanup();
+        }
     }
-}
 public class Client {
     static InetAdress dest;
     public static void main (String[] args) throws Exception {
