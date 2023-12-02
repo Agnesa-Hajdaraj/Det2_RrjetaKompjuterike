@@ -56,35 +56,6 @@ public class Client {
             WSACleanup();
         }
     }
-public class Client {
-    static InetAdress dest;
-    public static void main (String[] args) throws Exception {
-        DatagramSocket clskt = new DatagramSocket();
-        Scanner input new Scanner (System.in);
-        int port = input.nextInt();
-        System.out.println("Enter Destination Host name");
-        String hostname = input.text();
-        dest.getByName(hostname);
-        int packetcount = 0;
-        System.out.println("Enter the path of the file you want to send");
-        String path = input.next();
-        File initialFile = new File (path);
-            FileInputStream targetStream = new FileInputStream(initialFile);
-        int filesize = targetStream.available();
-        byte[] data = new byte[1024];
-        for(int i = 0; i <1024; i++){
-            data[i]=(byte)targetStream.read();
-        }
-                DatagramPacket clpkt = new 
-        DatagramPacket(data,data.length,dest,port);
-        packetcount++;
-        clskt.send(clpkt);
-        if(packetcount > neededpackets)
-        clskt.close();
-    }
-
-}
-   
 private static class WSADATA {
         // Define WSADATA structure as needed
     }
