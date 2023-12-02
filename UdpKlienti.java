@@ -84,3 +84,37 @@ public class Client {
     }
 
 }
+   
+private static class WSADATA {
+        // Define WSADATA structure as needed
+    }
+
+    private static int WSAStartup(int version, WSADATA wsa) {
+        // Implement WSAStartup as needed
+        return 0;
+    }
+
+    private static int MAKEWORD(int high, int low) {
+        // Implement MAKEWORD as needed
+        return (high << 8) | low;
+    }
+
+    private static int WSAGetLastError() {
+        // Implement WSAGetLastError as needed
+        return 0;
+    }
+
+    private static int closesocket(DatagramSocket socket) {
+        // Implement closesocket as needed
+        return 0;
+    }
+
+    private static void WSACleanup() {
+        // Implement WSACleanup as needed
+    }
+}
+
+final class DefineConstants {
+    public static final int BUFLEN = 512;
+    public static final int PORT = 8888;
+}
