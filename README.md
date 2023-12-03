@@ -1,4 +1,9 @@
-## Det2_RrjetaKompjuterike
+Rrjeta Kompjuterike
+
+1.Adrian Sopi
+2.Adriatik Krasniqi
+3.Agnesa Hajdaraj
+4.Agnesa Jashanica
 
 UDP Server & Client
 This repository contains a simple UDP server (UDPServer) and client (Client) written in Java. The server offers a "Magic Number Game" and basic file operations, while the client sends commands to the server.
